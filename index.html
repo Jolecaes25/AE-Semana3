@@ -1,1 +1,106 @@
-affaafaf
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hill Climbing</title>
+    <style>
+        .subt2 {
+            font-style: italic;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;"><u>Hill Climbing y Algoritmos Genéticos</u></h1>
+    <h4 style="text-align: center;">Jorge Leonardo Castañeda Esquivel, 0202114002</h4>
+    <h2>Hill Climbing</h2>
+    <h3 class="subt2">Concepto</h3>
+    <p style="margin-left: 25px;">
+        Hill Climbing (escalada de colinas) es un algoritmo de búsqueda local utilizado en optimización. Es una técnica
+        iterativa que parte de una solución inicial y busca mejorarla paso a paso cambiando un poco los valores,
+        seleccionando siempre la mejor vecina.</p>
+    <h4 style="margin-left: 25px;">Características:</h4>
+    <div style="margin-left: 30px;">
+        <li>Greedy (codicioso): solo avanza hacia soluciones que mejoran la actual.</li>
+        <li>Simple y rápido, pero puede quedar atrapado en óptimos locales.</li>
+        <li>No explora ampliamente el espacio de búsqueda.</li>
+    </div>
+    <h3 class="subt2">Implementación a Python</h3>
+    <p style="margin-left: 25px;">
+        Teniendose la función F(x)= −x^2 + 5, para encontrar el máximo valor de x, se puede aplicar esta función
+
+    <div style="border-style:solid;background-color:#FFFE91; width: 650px; margin-left: 50px;">
+        <PRE>
+    import numpy as np
+    import pandas as pd
+    # Función objetivo
+    def objective_function(x):
+    return -x**2 + 5
+
+    # Hill Climbing
+    def hill_climbing(start_x, step_size=0.1, max_iterations=100):
+        current_x = start_x
+        current_score = objective_function(current_x)
+        history = []
+
+        for i in range(max_iterations):
+            # Vecinos: izquierda y derecha
+            neighbors = [current_x - step_size, current_x + step_size]
+            neighbor_scores = [objective_function(n) for n in neighbors]
+
+            # Encuentra el mejor vecino
+            best_score = max(neighbor_scores)
+            best_index = neighbor_scores.index(best_score)
+            best_neighbor = neighbors[best_index]
+
+            history.append({'iteration': i, 'x': current_x, 'score': current_score})
+
+            # Si no mejora, detener
+            if best_score <= current_score:
+                    break
+
+            # Mover al mejor vecino
+            current_x = best_neighbor
+            current_score = best_score
+
+        # Convertir historial a DataFrame
+        df_history = pd.DataFrame(history)
+        return current_x, current_score, df_history
+
+    # Ejecutar
+    best_x, best_score, history_df = hill_climbing(start_x=2.0)
+
+    print(f"Mejor x: {best_x}")
+    print(f"Mejor score: {best_score}")
+    print("\nHistorial de iteraciones:")
+    print(history_df)
+        </PRE>
+    </div>
+    </p>
+    <p style="margin-left: 25px;">Este código produciría una tabla con todas las iteraciones de x de forma
+        ascendente hasta llegar al máximo
+    </p>
+    <h2>Algoritmos Genéticos</h2>
+    <h3 class="subt2">Concepto</h3>
+    <p style="margin-left: 25px;">Los algoritmos genéticos (GA) son una técnica de búsqueda y optimización basada en la
+        evolución natural.
+    <h4 style="margin-left: 25px;">Características:</h4>
+    <div style="margin-left: 30px;">
+        <li>Población de soluciones (cromosomas)</li>
+        <li>Selección de los mejores individuos</li>
+        <li>Cruce (crossover): combinación de dos padres para generar descendencia</li>
+        <li>Mutación: cambios aleatorios para mantener diversidad</li>
+        <li>Fitness function: mide qué tan buena es una solución</li>
+    </div>
+    <h4 style="margin-left: 25px;">Ventajas:</h4>
+    <div style="margin-left: 30px;">
+        <li>Exploran más ampliamente el espacio de soluciones</li>
+        <li>Menos probabilidad de quedar atrapados en óptimos locales</li>
+    </div>
+    </p>
+</body>
+
+</html>
